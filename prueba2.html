@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InclusionHub | Plataforma Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active { @apply bg-indigo-600 text-white shadow-md; }
+        .role-badge { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+
+    <!-- Navegación Principal -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('profile')">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                    <i class="fas fa-universal-access text-xl"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-indigo-900">InclusionHub</span>
+            </div>
+            
+            <!-- Selector de Rol -->
+            <div class="flex items-center bg-slate-100 p-1 rounded-2xl shadow-inner">
+                <button id="role-aspirante" onclick="setRole('aspirante')" class="role-badge px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all bg-white shadow-sm text-indigo-600">
+                    <i class="fas fa-user-graduate mr-1"></i> Aspirante
+                </button>
+                <button id="role-empresa" onclick="setRole('empresa')" class="role-badge px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all text-slate-500 hover:text-indigo-600">
+                    <i class="fas fa-building mr-1"></i> Empresa
+                </button>
+            </div>
+
+            <div class="flex bg-slate-100 p-1 rounded-xl" id="nav-container">
+                <!-- Se llena dinámicamente por JS -->
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-8">
+
+        <!-- MODO ASPIRANTE: PERFIL -->
+        <section id="page-profile" class="page active">
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h2 class="text-2xl font-black text-slate-800 mb-6">Configurar mi Perfil</h2>
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2">Nombre Completo</label>
+                            <input type="text" id="reg-name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="Ej. Alex Martínez">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2">Capacidad / Discapacidad</label>
+                            <select id="reg-disability" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none appearance-none cursor-pointer">
+                                <option value="Ninguna">Ninguna / Sin especificar</option>
+                                <option value="Movilidad Reducida">Movilidad Reducida</option>
+                                <option value="Visual">Discapacidad Visual</option>
+                                <option value="Auditiva">Discapacidad Auditiva</option>
+                                <option value="Neurodivergencia">Neurodivergencia (Autismo, TDAH)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2">Fortalezas Destacadas</label>
+                            <div class="flex gap-2 mb-3">
+                                <input type="text" id="reg-strength" class="flex-grow px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Ej. Resolución de problemas">
+                                <button onclick="addStrength()" class="bg-slate-800 text-white px-5 rounded-xl hover:bg-black transition-colors">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div id="strength-tags" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <button onclick="saveProfile()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black text-lg shadow-lg shadow-indigo-100 hover:bg-indigo-700 active:scale-[0.98] transition-all">
+                            Actualizar Perfil
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center justify-center space-y-6">
+                    <div class="w-full max-w-sm bg-indigo-900 rounded-[2.5rem] p-8 text-white relative shadow-2xl overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fas fa-fingerprint text-9xl"></i></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-4 mb-8">
+                                <div id="card-initial" class="w-16 h-16 bg-white text-indigo-900 rounded-2xl flex items-center justify-center text-3xl font-black">?</div>
+                                <div>
+                                    <h3 id="card-name" class="text-xl font-bold">Nombre del Usuario</h3>
+                                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest">Inclusion ID</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div><p class="text-[10px] font-black uppercase text-indigo-400 mb-1">Acceso Preferencial</p><p id="card-disability" class="text-sm">Ninguna</p></div>
+                                <div><p class="text-[10px] font-black uppercase text-indigo-400 mb-1">Habilidades</p><p id="card-strengths" class="text-sm italic">Sin definir</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODO ASPIRANTE: CURSOS -->
+        <section id="page-courses" class="page">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-slate-800 text-center md:text-left">Centro de Capacitación</h2>
+                <p class="text-slate-500 text-center md:text-left">Cursos diseñados para impulsar tu carrera profesional.</p>
+            </div>
+            <div id="courses-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- MODO ASPIRANTE: EMPLEOS -->
+        <section id="page-jobs" class="page">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                <div>
+                    <h2 class="text-3xl font-black text-slate-800">Vacantes Disponibles</h2>
+                    <p class="text-slate-500 mt-1" id="job-filter-info">Mostrando todas las oportunidades.</p>
+                </div>
+            </div>
+            <div id="jobs-list" class="space-y-4"></div>
+        </section>
+
+        <!-- MODO EMPRESA: CREAR OFERTA -->
+        <section id="page-create-job" class="page">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-xl">
+                <h2 class="text-2xl font-black text-slate-800 mb-2">Publicar Nueva Oferta</h2>
+                <p class="text-slate-500 mb-8">Ayuda a construir un entorno laboral más inclusivo.</p>
+                
+                <form onsubmit="handleCreateJob(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-black uppercase text-slate-400 mb-2">Título del Puesto</label>
+                        <input type="text" id="job-title" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2">Empresa</label>
+                            <input type="text" id="job-company" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2">Salario Est. (USD)</label>
+                            <input type="text" id="job-salary" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="$1,500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black uppercase text-slate-400 mb-2">Tipo de Accesibilidad Prioritaria</label>
+                        <select id="job-access" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none appearance-none cursor-pointer">
+                            <option value="Cualquiera">Cualquiera / Universal</option>
+                            <option value="Movilidad Reducida">Movilidad Reducida</option>
+                            <option value="Visual">Visual</option>
+                            <option value="Auditiva">Auditiva</option>
+                            <option value="Neurodivergencia">Neurodivergencia</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-lg hover:bg-black transition-all">Publicar Vacante</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- MODO EMPRESA: CANDIDATOS -->
+        <section id="page-candidates" class="page">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-slate-800">Candidatos Registrados</h2>
+                <p class="text-slate-500">Perfiles destacados según sus capacidades y adaptabilidad.</p>
+            </div>
+            <div id="candidates-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- BASE DE DATOS LOCAL ---
+        let userRole = 'aspirante';
+        const COURSES = [
+            { id: 1, title: "Desarrollo con React Accesible", category: "TI", time: "30h", level: "Intermedio", icon: "code" },
+            { id: 2, title: "Gestión de Proyectos Inclusivos", category: "Liderazgo", time: "15h", level: "Básico", icon: "users-gear" },
+            { id: 3, title: "Introducción al Diseño UX", category: "Diseño", time: "20h", level: "Básico", icon: "pen-nib" }
+        ];
+
+        let JOBS = JSON.parse(localStorage.getItem('hub_jobs')) || [
+            { id: 1, title: "Soporte Técnico Senior", company: "TeleGlobal", access: "Auditiva", salary: "$1,200", tags: ["Remoto"] },
+            { id: 2, title: "Analista Programador", company: "SoftSolutions", access: "Neurodivergencia", salary: "$2,500", tags: ["Enfoque"] }
+        ];
+
+        // Candidatos simulados (aquí entraría el usuario si guardara su perfil en una BD real)
+        const MOCK_CANDIDATES = [
+            { name: "Carlos Ruiz", disability: "Movilidad Reducida", skills: ["Contabilidad", "Excel"], initial: "C" },
+            { name: "Elena Gómez", disability: "Auditiva", skills: ["Diseño Gráfico", "Figma"], initial: "E" },
+            { name: "Roberto Díaz", disability: "Visual", skills: ["Atención al Cliente", "Ventas"], initial: "R" },
+            { name: "Lucía Torres", disability: "Neurodivergencia", skills: ["QA Testing", "Python"], initial: "L" }
+        ];
+
+        let userState = JSON.parse(localStorage.getItem('user_profile')) || {
+            name: "",
+            disability: "Ninguna",
+            strengths: []
+        };
+
+        // --- SISTEMA DE ROLES ---
+        function setRole(role) {
+            userRole = role;
+            const btnAsp = document.getElementById('role-aspirante');
+            const btnEmp = document.getElementById('role-empresa');
+            
+            if(role === 'aspirante') {
+                btnAsp.classList.add('bg-white', 'shadow-sm', 'text-indigo-600');
+                btnAsp.classList.remove('text-slate-500');
+                btnEmp.classList.remove('bg-white', 'shadow-sm', 'text-indigo-600');
+                btnEmp.classList.add('text-slate-500');
+                showPage('profile');
+            } else {
+                btnEmp.classList.add('bg-white', 'shadow-sm', 'text-indigo-600');
+                btnEmp.classList.remove('text-slate-500');
+                btnAsp.classList.remove('bg-white', 'shadow-sm', 'text-indigo-600');
+                btnAsp.classList.add('text-slate-500');
+                showPage('create-job');
+            }
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            const container = document.getElementById('nav-container');
+            if(userRole === 'aspirante') {
+                container.innerHTML = `
+                    <button onclick="showPage('profile')" id="nav-profile" class="nav-link active px-4 py-2 rounded-lg text-sm font-bold transition-all">Perfil</button>
+                    <button onclick="showPage('courses')" id="nav-courses" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Cursos</button>
+                    <button onclick="showPage('jobs')" id="nav-jobs" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Empleos</button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="showPage('create-job')" id="nav-create-job" class="nav-link active px-4 py-2 rounded-lg text-sm font-bold transition-all">Nueva Oferta</button>
+                    <button onclick="showPage('candidates')" id="nav-candidates" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Candidatos</button>
+                `;
+            }
+        }
+
+        // --- NAVEGACIÓN ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.remove('active', 'bg-indigo-600', 'text-white', 'shadow-md');
+                l.classList.add('text-slate-500');
+            });
+            const activeLink = document.getElementById(`nav-${pageId}`);
+            if(activeLink) {
+                activeLink.classList.add('active', 'bg-indigo-600', 'text-white', 'shadow-md');
+                activeLink.classList.remove('text-slate-500');
+            }
+
+            if (pageId === 'courses') renderCourses();
+            if (pageId === 'jobs') renderJobs();
+            if (pageId === 'candidates') renderCandidates();
+        }
+
+        // --- LÓGICA DE EMPRESA ---
+        function handleCreateJob(e) {
+            e.preventDefault();
+            const newJob = {
+                id: Date.now(),
+                title: document.getElementById('job-title').value,
+                company: document.getElementById('job-company').value,
+                access: document.getElementById('job-access').value,
+                salary: document.getElementById('job-salary').value,
+                tags: ["Nuevo"]
+            };
+            JOBS.unshift(newJob);
+            localStorage.setItem('hub_jobs', JSON.stringify(JOBS));
+            e.target.reset();
+            alert("¡Oferta publicada con éxito!");
+        }
+
+        function renderCandidates() {
+            const grid = document.getElementById('candidates-grid');
+            grid.innerHTML = MOCK_CANDIDATES.map(c => `
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 hover:shadow-lg transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center font-black text-xl">${c.initial}</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">${c.name}</h3>
+                            <span class="text-[10px] font-black uppercase text-indigo-400">${c.disability}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        ${c.skills.map(s => `<span class="bg-slate-50 text-slate-500 px-2 py-1 rounded text-[10px] font-bold uppercase">${s}</span>`).join("")}
+                    </div>
+                    <button class="w-full mt-6 bg-slate-50 py-2 rounded-xl text-xs font-black text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">VER PERFIL</button>
+                </div>
+            `).join("");
+        }
+
+        // --- MÉTODOS DE ASPIRANTE (EXISTENTES REUTILIZADOS) ---
+        function renderCourses() {
+            const grid = document.getElementById('courses-grid');
+            grid.innerHTML = COURSES.map(c => `
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200">
+                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-${c.icon}"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800">${c.title}</h3>
+                    <div class="mt-4 flex justify-between items-center text-[10px] font-black text-slate-400">
+                        <span>${c.time}</span>
+                        <span class="text-indigo-600">${c.level}</span>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function renderJobs() {
+            const list = document.getElementById('jobs-list');
+            const filtered = userState.disability !== "Ninguna" 
+                ? JOBS.filter(j => j.access === userState.disability || j.access === 'Cualquiera')
+                : JOBS;
+
+            list.innerHTML = filtered.map(j => `
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-slate-800">${j.title}</h3>
+                        <p class="text-indigo-600 text-sm font-bold">${j.company}</p>
+                        <span class="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded uppercase font-black tracking-widest">${j.access}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-black text-slate-800">${j.salary}</span>
+                        <button class="mt-2 bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold">Postular</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // Lógica de perfil inicial
+        function addStrength() {
+            const val = document.getElementById('reg-strength').value.trim();
+            if (val && !userState.strengths.includes(val)) {
+                userState.strengths.push(val);
+                document.getElementById('reg-strength').value = "";
+                renderStrengthTags();
+            }
+        }
+        function renderStrengthTags() {
+            document.getElementById('strength-tags').innerHTML = userState.strengths.map((s, i) => `
+                <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-2">
+                    ${s} <i class="fas fa-times cursor-pointer" onclick="userState.strengths.splice(${i},1);renderStrengthTags()"></i>
+                </span>
+            `).join("");
+        }
+        function saveProfile() {
+            userState.name = document.getElementById('reg-name').value;
+            userState.disability = document.getElementById('reg-disability').value;
+            localStorage.setItem('user_profile', JSON.stringify(userState));
+            updateCard();
+            alert("Perfil actualizado");
+        }
+        function updateCard() {
+            document.getElementById('card-name').innerText = userState.name || "Nombre del Usuario";
+            document.getElementById('card-initial').innerText = userState.name ? userState.name[0].toUpperCase() : "?";
+            document.getElementById('card-disability').innerText = userState.disability;
+            document.getElementById('card-strengths').innerText = userState.strengths.join(", ") || "Sin definir";
+        }
+
+        window.onload = () => {
+            setRole('aspirante');
+            document.getElementById('reg-name').value = userState.name;
+            document.getElementById('reg-disability').value = userState.disability;
+            renderStrengthTags();
+            updateCard();
+        };
+    </script>
+</body>
+</html>

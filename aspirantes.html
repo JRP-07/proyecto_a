@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InclusionHub | Perfil Aspirante</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-link.active { @apply bg-indigo-600 text-white shadow-md; }
+        /* Estilo para campos deshabilitados */
+        select:disabled { @apply bg-slate-100 cursor-not-allowed opacity-70; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <button onclick="safeRedirect('index.html')" class="text-slate-400 hover:text-indigo-600 transition-colors">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="bg-indigo-600 text-white p-2 rounded-lg"><i class="fas fa-user-graduate"></i></div>
+                    <span id="nav-user-name" class="text-xl font-bold text-indigo-900 hidden md:block">Cargando...</span>
+                </div>
+            </div>
+
+            <div class="flex bg-slate-100 p-1 rounded-xl">
+                <button onclick="showPage('profile')" id="nav-profile" class="nav-link active px-4 py-2 rounded-lg text-sm font-bold transition-all">Perfil</button>
+                <button onclick="showPage('jobs')" id="nav-jobs" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Empleos</button>
+                <button onclick="showPage('courses')" id="nav-courses" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Cursos</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8">
+        <!-- SECCIÓN PERFIL -->
+        <section id="page-profile" class="page active">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h2 class="text-2xl font-black mb-6 text-slate-800">Actualizar Mis Datos</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Nombre Completo</label>
+                            <input type="text" id="reg-name" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" readonly="true">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tipo de Discapacidad</label>
+                            <div id="disability-lock-msg" class="text-[9px] text-amber-600 font-bold mb-1 hidden italic">
+                                <i class="fas fa-lock"></i> Esta información ya no puede ser modificada.
+                            </div>
+                            <select id="reg-disability" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none transition-all">
+                                <option value="Ninguna">Sin especificar</option>
+                                <option value="Movilidad Reducida">Movilidad Reducida</option>
+                                <option value="Visual">Visual</option>
+                                <option value="Auditiva">Auditiva</option>
+                                <option value="Neurodivergencia">Neurodivergencia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Habilidades (separadas por coma)</label>
+                            <textarea id="reg-skills" rows="3" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Excel, Diseño Gráfico, Atención al cliente..."></textarea>
+                        </div>
+                        <button onclick="saveCurrentProfile()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card de Vista Previa -->
+                <div class="bg-indigo-900 p-8 rounded-[2.5rem] text-white shadow-xl flex flex-col justify-center">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div id="card-initial" class="w-16 h-16 bg-white text-indigo-900 rounded-2xl flex items-center justify-center text-3xl font-black">?</div>
+                        <div>
+                            <h3 id="card-name" class="text-2xl font-bold">Postulante</h3>
+                            <p class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">ID de Registro: <span id="card-id">0000</span></p>
+                        </div>
+                    </div>
+                    <div class="border-t border-indigo-800 pt-4 space-y-4">
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-1">Condición de Acceso:</p>
+                            <p id="card-disability" class="text-sm font-bold text-indigo-100">Ninguna</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-2">Habilidades Destacadas:</p>
+                            <div id="card-skills" class="flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN EMPLEOS -->
+        <section id="page-jobs" class="page">
+            <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <h2 class="text-3xl font-black text-slate-800">Vacantes Disponibles</h2>
+                    <p class="text-slate-500 text-sm">Mostrando empleos compatibles con tu perfil de accesibilidad.</p>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                    <input type="text" id="job-search" oninput="renderJobs()" placeholder="Buscar puesto o empresa..." class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                </div>
+            </div>
+            <div id="jobs-list" class="grid gap-4"></div>
+        </section>
+
+        <!-- SECCIÓN CURSOS -->
+        <section id="page-courses" class="page">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-slate-800 text-center md:text-left">Cursos de Capacitación</h2>
+                <p class="text-slate-500 text-sm text-center md:text-left">Programas diseñados para potenciar tu perfil profesional.</p>
+            </div>
+            <div id="courses-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+    </main>
+
+    <script>
+        let currentUserId = null;
+        let currentUserData = null;
+
+        function safeRedirect(url) {
+            if (!url) return;
+            window.location.href = url;
+        }
+
+        function initializeApp() {
+            const params = new URLSearchParams(window.location.search);
+            const idStr = params.get('id');
+
+            if (!idStr) {
+                safeRedirect('inicio.html');
+                return;
+            }
+
+            currentUserId = parseInt(idStr);
+            const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
+            currentUserData = candidates.find(c => c.id === currentUserId);
+
+            if (!currentUserData) {
+                safeRedirect('inicio.html');
+                return;
+            }
+
+            fillForm();
+            updateCard();
+        }
+
+        function fillForm() {
+            const nameEl = document.getElementById('reg-name');
+            const disEl = document.getElementById('reg-disability');
+            const skillEl = document.getElementById('reg-skills');
+            const navEl = document.getElementById('nav-user-name');
+            const lockMsg = document.getElementById('disability-lock-msg');
+
+            if (nameEl) nameEl.value = currentUserData.name || '';
+            if (skillEl) skillEl.value = currentUserData.skills || '';
+            if (navEl) navEl.innerText = currentUserData.name || 'Postulante';
+
+            if (disEl) {
+                disEl.value = currentUserData.disability || 'Ninguna';
+                
+                // BLOQUEO: Si la capacidad ya está asignada (no es "Ninguna"), se deshabilita el select
+                if (currentUserData.disability && currentUserData.disability !== "Ninguna") {
+                    disEl.disabled = true;
+                    if (lockMsg) lockMsg.classList.remove('hidden');
+                } else {
+                    disEl.disabled = false;
+                    if (lockMsg) lockMsg.classList.add('hidden');
+                }
+            }
+        }
+
+        function saveCurrentProfile() {
+            const nameInput = document.getElementById('reg-name');
+            const disInput = document.getElementById('reg-disability');
+            const skillInput = document.getElementById('reg-skills');
+            
+            const name = nameInput ? nameInput.value.trim() : "";
+            const skills = skillInput ? skillInput.value.trim() : "";
+            const dis = disInput ? disInput.value : "Ninguna";
+
+            // Lógica de guardado respetando el bloqueo
+            let disability = currentUserData.disability;
+            if (disInput && !disInput.disabled) {
+                disability = disInput.value;
+            }
+
+            if (!name) {
+                alert("El nombre es obligatorio.");
+                return;
+            }
+
+            const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
+            const index = candidates.findIndex(c => c.id === currentUserId);
+
+            if (index !== -1) {
+                currentUserData = { ...currentUserData, name, disability, skills };
+                candidates[index] = currentUserData;
+                localStorage.setItem('hub_candidates', JSON.stringify(candidates));
+                
+                const navEl = document.getElementById('nav-user-name');
+                if (navEl) navEl.innerText = name;
+                
+                // Volvemos a ejecutar fillForm para asegurar que si se acaba de asignar una, se bloquee
+                fillForm();
+                updateCard();
+                alert("Perfil actualizado correctamente.");
+            }
+        }
+
+        function updateCard() {
+            const cardName = document.getElementById('card-name');
+            const cardInit = document.getElementById('card-initial');
+            const cardDis = document.getElementById('card-disability');
+            const cardId = document.getElementById('card-id');
+            const skillCont = document.getElementById('card-skills');
+
+            if (cardName) cardName.innerText = currentUserData.name;
+            if (cardInit) cardInit.innerText = currentUserData.name ? currentUserData.name[0].toUpperCase() : '?';
+            if (cardDis) cardDis.innerText = currentUserData.disability;
+            if (cardId) cardId.innerText = currentUserId.toString().slice(-4);
+
+            if (skillCont) {
+                if (currentUserData.skills) {
+                    const skillsArr = currentUserData.skills.split(',').filter(s => s.trim() !== '');
+                    skillCont.innerHTML = skillsArr.map(s => `
+                        <span class="bg-indigo-800 text-indigo-100 px-3 py-1 rounded-lg text-[10px] font-bold uppercase border border-indigo-700">${s.trim()}</span>
+                    `).join('');
+                } else {
+                    skillCont.innerHTML = '<span class="text-xs text-indigo-400 italic">No has agregado habilidades aún.</span>';
+                }
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) targetPage.classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'bg-indigo-600', 'text-white');
+                link.classList.add('text-slate-500');
+            });
+
+            const activeLink = document.getElementById(`nav-${pageId}`);
+            if (activeLink) {
+                activeLink.classList.add('active', 'bg-indigo-600', 'text-white');
+                activeLink.classList.remove('text-slate-500');
+            }
+
+            if (pageId === 'jobs') renderJobs();
+            if (pageId === 'courses') renderCourses();
+        }
+
+        function renderJobs() {
+            const container = document.getElementById('jobs-list');
+            if (!container) return;
+            
+            const searchInput = document.getElementById('job-search');
+            const search = searchInput ? searchInput.value.toLowerCase() : "";
+            
+            const jobs = JSON.parse(localStorage.getItem('hub_jobs')) || [
+                { id: 1, title: "Recepcionista", company: "Hotel Plaza", access: "Movilidad Reducida" },
+                { id: 2, title: "Programador Jr", company: "DevStudio", access: "Cualquiera" },
+                { id: 3, title: "Asesor Contable", company: "Finanzas SA", access: "Auditiva" }
+            ];
+
+            const filtered = jobs.filter(j => {
+                const matchesAccess = j.access === 'Cualquiera' || (currentUserData && j.access === currentUserData.disability);
+                const matchesSearch = j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
+                return matchesAccess && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-16 bg-white rounded-3xl border-2 border-dashed border-slate-100 col-span-full text-slate-400">Sin resultados.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(j => `
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:shadow-lg transition-all border-l-4 border-l-indigo-600">
+                    <div>
+                        <h3 class="font-black text-xl text-slate-800">${j.title}</h3>
+                        <p class="text-slate-500 font-bold">${j.companyName}</p>
+                    </div>
+                    <button class="bg-slate-900 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 transition-colors">Postular</button>
+                </div>
+            `).join('');
+        }
+
+        function renderCourses() {
+            const container = document.getElementById('courses-list');
+            if (!container) return;
+
+            const courses = [
+                { id: 1, title: "Oficios", level: "Básico", duration: "20h", icon: "fa-briefcase" },
+                { id: 2, title: "Herramientas de Accesibilidad", level: "Básico", duration: "10h", icon: "fa-universal-access" },
+                { id: 3, title: "Programación en Python", level: "Básico", duration: "40h", icon: "fa-code" },
+                { id: 4, title: "Marketing Digital", level: "Avanzado", duration: "30h", icon: "fa-bullhorn" },
+                { id: 5, title: "Atención al Cliente", level: "Básico", duration: "15h", icon: "fa-headset" },
+                { id: 6, title: "Diseño UX/UI Inclusivo", level: "Intermedio", duration: "25h", icon: "fa-paint-brush" }
+            ];
+
+            container.innerHTML = courses.map(c => `
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <i class="fas ${c.icon} text-xl"></i>
+                    </div>
+                    <h3 class="font-black text-lg text-slate-800 mb-1">${c.title}</h3>
+                    <div class="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
+                        <span>${c.level}</span>
+                        <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+                        <span>${c.duration}</span>
+                    </div>
+                    <button class="w-full py-4 rounded-2xl bg-slate-50 text-indigo-600 font-black text-xs uppercase tracking-widest border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">
+                        Tomar Curso
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        window.onload = initializeApp;
+    </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilly | Acceso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        
+        <!-- Logo e Inicio General -->
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-lg shadow-indigo-100">
+                    <img src="recursos/logo2.png" 
+                             alt="Logo InclusionHub" 
+                             class="w-20 h-20 object-contain"
+                             onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-handshake-angle text-white\'></i>'; this.type='hidden';">
+                </div>
+                <h1 class="text-2xl font-black text-indigo-900 tracking-tight">Habilly</h1>
+            </div>
+            
+            <div class="h-6 w-[1px] bg-slate-200 hidden md:block mx-2"></div>
+            
+            <!--<button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-sm transition-all group">
+                <i class="fas fa-home text-lg group-hover:scale-110 transition-transform"></i>
+                <span>Inicio General</span>
+            </button>-->
+        </div>
+
+        <!-- Portales Específicos -->
+        <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl w-full md:w-auto justify-center">
+            <!-- Botón Aspirantes -->
+            <button onclick="window.location.href='index.html'" 
+                class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white text-indigo-600 rounded-xl text-xs font-black uppercase tracking-widest shadow-sm hover:bg-indigo-50 transition-all border border-slate-200">
+                <i class="fas fa-user"></i>
+                Portal Aspirantes
+            </button>
+
+            <!-- Botón Empresas -->
+            <button onclick="window.location.href='inicio_empresas.html'" 
+                class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-md shadow-emerald-100 hover:bg-emerald-700 transition-all">
+                <i class="fas fa-building"></i>
+                Portal Empresas
+            </button>
+        </div>
+        
+    </div>
+</header>
+
+    <main class="flex-1 flex items-center justify-center p-4">
+        <div class="max-w-md w-full">
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-slate-200">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-black text-slate-800 mb-2">Acceso Aspirante</h2>
+                    <p class="text-slate-500 text-sm">Ingresa tu nombre para acceder a tu perfil y buscar vacantes.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-1">Tu nombre de usuario</label>
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                            <input type="text" id="login-name" 
+                                class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
+                                placeholder="Ej: Carlos Ruiz"
+                                onkeypress="if(event.key === 'Enter') handleAccess()">
+                        </div>
+                    </div>
+
+                    <div class="pt-2 space-y-3">
+                        <button onclick="handleAccess()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 hover:-translate-y-1 transition-all">
+                            Entrar a mi Perfil
+                        </button>
+                        
+                        <div class="relative py-4">
+                            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
+                            <div class="relative flex justify-center text-[10px] uppercase font-black text-slate-400"><span class="bg-white px-2">O también</span></div>
+                        </div>
+
+                        <button onclick="toggleRegister(true)" class="w-full bg-white border-2 border-slate-100 text-slate-600 py-4 rounded-2xl font-black hover:bg-slate-50 transition-all">
+                            Crear una cuenta nueva
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="feedback" class="mt-6 text-center hidden">
+                <p class="text-red-500 text-sm font-bold flex items-center justify-center gap-2">
+                    <i class="fas fa-exclamation-circle"></i> <span id="feedback-text"></span>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Registro -->
+    <div id="modal-register" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-sm p-8 rounded-[2.5rem] shadow-2xl">
+            <h3 class="text-2xl font-black mb-2">Registro</h3>
+            <p class="text-slate-500 text-sm mb-6">¿Eres nuevo? Dinos tu nombre para empezar.</p>
+            
+            <input type="text" id="reg-new-name" class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none mb-4" placeholder="Nombre completo">
+            
+            <div class="flex gap-3">
+                <button onclick="toggleRegister(false)" class="flex-1 py-3 text-slate-400 font-bold">Cancelar</button>
+                <button onclick="registerAndLogin()" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-black">Registrarme</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initData() {
+            if (!localStorage.getItem('hub_candidates')) {
+                const seed = [
+                    { id: 1710000000001, name: "Ana García", disability: "Visual", skills: "Accesibilidad, HTML, React" },
+                    { id: 1710000000002, name: "Carlos Ruiz", disability: "Movilidad Reducida", skills: "Diseño, Figma, CSS" },
+                    { id: 1710000000003, name: "Juan", disability: "Movilidad Reducida", skills: "Diseño, Figma, CSS" }
+                ];
+                localStorage.setItem('hub_candidates', JSON.stringify(seed));
+            }
+        }
+
+        function handleAccess() {
+            const nameInput = document.getElementById('login-name').value.trim();
+            if (!nameInput) return showFeedback("Por favor, ingresa tu nombre.");
+
+            const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
+            const user = candidates.find(c => c.name.toLowerCase() === nameInput.toLowerCase());
+
+            if (user) {
+                window.location.href = `aspirantes.html?id=${user.id}`;
+            } else {
+                showFeedback("No encontramos un perfil con ese nombre.");
+            }
+        }
+
+        function toggleRegister(show) {
+            document.getElementById('modal-register').style.display = show ? 'flex' : 'none';
+        }
+
+        function registerAndLogin() {
+            const newName = document.getElementById('reg-new-name').value.trim();
+            if(!newName) return alert("Ingresa un nombre válido");
+
+            const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
+            const newCandidate = { id: Date.now(), name: newName, disability: "Ninguna", skills: "" };
+            candidates.push(newCandidate);
+            localStorage.setItem('hub_candidates', JSON.stringify(candidates));
+            window.location.href = `aspirantes.html?id=${newCandidate.id}`;
+        }
+
+        function showFeedback(msg) {
+            const feedback = document.getElementById('feedback');
+            document.getElementById('feedback-text').innerText = msg;
+            feedback.classList.remove('hidden');
+        }
+
+        window.onload = initData;
+    </script>
+</body>
+</html>

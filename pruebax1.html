@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InclusionHub | Panel de Empresa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide { animation: slideIn 0.5s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+    <!-- Navegación -->
+    <nav class="bg-emerald-900 text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-500 p-2 rounded-xl">
+                    <i class="fas fa-building text-xl"></i>
+                </div>
+                <div>
+                    <h1 id="display-company-name" class="font-black text-xl tracking-tight">Cargando Empresa...</h1>
+                    <p class="text-[10px] uppercase font-bold text-emerald-300">Panel de Reclutamiento</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="logout()" class="text-sm font-bold hover:text-emerald-300 transition-colors">
+                    Cerrar Sesión <i class="fas fa-sign-out-alt ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6 md:p-10">
+        
+        <!-- Header con Resumen -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5">
+                <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div>
+                    <p class="text-slate-400 text-xs font-bold uppercase">Vacantes Activas</p>
+                    <h3 id="count-jobs" class="text-3xl font-black text-slate-800">0</h3>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5">
+                <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <p class="text-slate-400 text-xs font-bold uppercase">Postulaciones</p>
+                    <h3 class="text-3xl font-black text-slate-800">24</h3>
+                </div>
+            </div>
+            <div class="bg-emerald-600 p-6 rounded-[2rem] shadow-lg text-white flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-bold">Publicar Vacante</h3>
+                    <p class="text-emerald-100 text-xs">Atrae talento diverso hoy mismo.</p>
+                </div>
+                <button onclick="openModal()" class="w-12 h-12 bg-white text-emerald-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Listado de Vacantes -->
+        <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-8 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="text-2xl font-black text-slate-800">Gestión de Vacantes</h2>
+                <div class="flex gap-2">
+                    <span class="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold text-slate-500 uppercase">Filtro: Recientes</span>
+                </div>
+            </div>
+            
+            <div id="jobs-container" class="divide-y divide-slate-100">
+                <!-- Las vacantes se cargan aquí dinámicamente -->
+                <div class="p-20 text-center text-slate-400">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                    <p>Cargando tus vacantes...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Nueva Vacante -->
+    <div id="job-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-[100] items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 md:p-10 shadow-2xl animate-slide">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black text-slate-800">Crear Vacante</h3>
+                <button onclick="closeModal()" class="text-slate-300 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+            </div>
+
+            <form id="vacancy-form" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1 ml-2">Título del Puesto</label>
+                    <input type="text" id="job-title" required placeholder="Ej: Desarrollador Frontend Jr." class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:border-emerald-500 transition-all">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1 ml-2">Tipo de Accesibilidad Prioritaria</label>
+                    <select id="job-access" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:border-emerald-500 appearance-none bg-white">
+                        <option value="Cualquiera">Cualquiera (Universal)</option>
+                        <option value="Movilidad Reducida">Movilidad Reducida</option>
+                        <option value="Visual">Visual</option>
+                        <option value="Auditiva">Auditiva</option>
+                        <option value="Neurodivergencia">Neurodivergencia</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-400 mb-1 ml-2">Descripción breve</label>
+                    <textarea id="job-desc" rows="3" required placeholder="Describe las tareas principales..." class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:border-emerald-500 transition-all"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-black shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all uppercase tracking-widest text-xs mt-4">
+                    Publicar Ahora
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentCompany = null;
+
+        // Inicializar datos
+        function init() {
+            const companySession = sessionStorage.getItem('current_company');
+            if(!companySession) {
+                window.location.href = 'inicio_empresas.html';
+                return;
+            }
+            currentCompany = JSON.parse(companySession);
+            document.getElementById('display-company-name').innerText = currentCompany.name;
+            renderJobs();
+        }
+
+        // Renderizar vacantes
+        function renderJobs() {
+            const container = document.getElementById('jobs-container');
+            const countEl = document.getElementById('count-jobs');
+            
+            // Obtener vacantes globales y filtrar por la empresa actual
+            let allJobs = JSON.parse(localStorage.getItem('hub_jobs')) || [];
+            
+            // Si es la primera vez, cargar algunas de ejemplo asociadas a esta empresa
+            if(allJobs.length === 0) {
+                allJobs = [
+                    { id: 1, title: "Recepcionista", company: currentCompany.name, companyId: currentCompany.id, access: "Movilidad Reducida", date: "2024-03-01" },
+                    { id: 2, title: "Analista de Sistemas", company: currentCompany.name, companyId: currentCompany.id, access: "Cualquiera", date: "2024-03-05" }
+                ];
+                localStorage.setItem('hub_jobs', JSON.stringify(allJobs));
+            }
+
+            const myJobs = allJobs.filter(j => j.companyId === currentCompany.id);
+            countEl.innerText = myJobs.length;
+
+            if(myJobs.length === 0) {
+                container.innerHTML = `
+                    <div class="p-20 text-center text-slate-400">
+                        <i class="fas fa-folder-open text-4xl mb-4 opacity-20"></i>
+                        <p class="font-bold">No tienes vacantes publicadas.</p>
+                        <button onclick="openModal()" class="text-emerald-600 text-xs uppercase font-black mt-2">Crear mi primera vacante</button>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = myJobs.map(job => `
+                <div class="p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 hover:bg-slate-50 transition-colors group">
+                    <div class="flex items-center gap-5 w-full">
+                        <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-colors">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-lg text-slate-800">${job.title}</h4>
+                            <div class="flex items-center gap-3 mt-1">
+                                <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-md border border-indigo-100">
+                                    <i class="fas fa-universal-access mr-1"></i> ${job.access}
+                                </span>
+                                <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Publicado: ${job.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                        <button class="p-3 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all" title="Ver Postulantes">
+                            <i class="fas fa-users"></i>
+                        </button>
+                        <button onclick="deleteJob(${job.id})" class="p-3 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all" title="Eliminar Vacante">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Borrar vacante
+        function deleteJob(id) {
+            if(confirm("¿Estás seguro de que deseas eliminar esta vacante? Esta acción no se puede deshacer.")) {
+                let allJobs = JSON.parse(localStorage.getItem('hub_jobs')) || [];
+                const updatedJobs = allJobs.filter(j => j.id !== id);
+                localStorage.setItem('hub_jobs', JSON.stringify(updatedJobs));
+                
+                // Efecto visual y recarga
+                renderJobs();
+            }
+        }
+
+        // Manejo de Modal
+        function openModal() {
+            document.getElementById('job-modal').classList.add('flex');
+            document.getElementById('job-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('job-modal').classList.add('hidden');
+            document.getElementById('job-modal').classList.remove('flex');
+        }
+
+        // Guardar nueva vacante
+        document.getElementById('vacancy-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newJob = {
+                id: Date.now(),
+                title: document.getElementById('job-title').value,
+                access: document.getElementById('job-access').value,
+                desc: document.getElementById('job-desc').value,
+                company: currentCompany.name,
+                companyId: currentCompany.id,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            const allJobs = JSON.parse(localStorage.getItem('hub_jobs')) || [];
+            allJobs.unshift(newJob);
+            localStorage.setItem('hub_jobs', JSON.stringify(allJobs));
+
+            this.reset();
+            closeModal();
+            renderJobs();
+        });
+
+        function logout() {
+            sessionStorage.removeItem('current_company');
+            window.location.href = 'inicio_empresas.html';
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

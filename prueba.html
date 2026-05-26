@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InclusionHub - Plataforma de Inclusión</title>
+    <!-- Framework de Estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Librería de Iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* Estilos Globales y Animaciones */
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #4f46e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+
+    <!-- HEADER / NAVEGACIÓN (Simula el enlace entre archivos) -->
+    <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('profile')">
+                <div class="bg-white text-indigo-700 p-2 rounded-lg shadow-inner">
+                    <i class="fas fa-universal-access text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-black tracking-tight">InclusionHub</h1>
+            </div>
+            
+            <nav class="flex bg-indigo-800/50 p-1 rounded-xl backdrop-blur-sm">
+                <button onclick="showPage('profile')" id="btn-profile" class="nav-btn flex items-center gap-2 px-5 py-2 rounded-lg transition-all duration-300 bg-indigo-600 shadow-lg">
+                    <i class="fas fa-id-card"></i> <span>Perfil</span>
+                </button>
+                <button onclick="showPage('courses')" id="btn-courses" class="nav-btn flex items-center gap-2 px-5 py-2 rounded-lg transition-all duration-300 hover:bg-indigo-600/50">
+                    <i class="fas fa-graduation-cap"></i> <span>Cursos</span>
+                </button>
+                <button onclick="showPage('jobs')" id="btn-jobs" class="nav-btn flex items-center gap-2 px-5 py-2 rounded-lg transition-all duration-300 hover:bg-indigo-600/50">
+                    <i class="fas fa-search-dollar"></i> <span>Empleos</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-8">
+
+        <!-- MÓDULO: PERFIL (index.html / profile.js logic) -->
+        <section id="page-profile" class="page active">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="w-full lg:w-3/5">
+                    <div class="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
+                        <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Crear Usuario</h2>
+                        <p class="text-slate-500 mb-8">Define tus capacidades para personalizar tu experiencia.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Nombre Completo</label>
+                                <div class="relative">
+                                    <i class="fas fa-user absolute left-4 top-4 text-slate-400"></i>
+                                    <input type="text" id="input-name" oninput="updateProfileView()" 
+                                           class="w-full pl-11 pr-4 py-3 border-2 border-slate-100 rounded-xl focus:border-indigo-500 focus:ring-0 transition-all outline-none" 
+                                           placeholder="Ej. María García">
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Fortalezas</label>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="input-strength" class="flex-1 p-3 border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-500" placeholder="Ej. Liderazgo">
+                                        <button onclick="addItem('strengths')" class="bg-indigo-600 text-white px-4 rounded-xl hover:bg-indigo-700 transition shadow-md">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div id="tags-strengths" class="flex flex-wrap gap-2 mt-3"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Capacidades / Acceso</label>
+                                    <div class="flex gap-2">
+                                        <select id="select-disability" class="flex-1 p-3 border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-500 bg-white">
+                                            <option value="">Seleccionar...</option>
+                                            <option value="Movilidad Reducida">Movilidad Reducida</option>
+                                            <option value="Auditiva">Auditiva</option>
+                                            <option value="Visual">Visual</option>
+                                            <option value="Neurodivergencia">Neurodivergencia</option>
+                                        </select>
+                                        <button onclick="addItem('disabilities')" class="bg-slate-800 text-white px-4 rounded-xl hover:bg-black transition shadow-md">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                    <div id="tags-disabilities" class="flex flex-wrap gap-2 mt-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulación de "Vista Previa de Carnet" -->
+                <div class="w-full lg:w-2/5 flex flex-col items-center">
+                    <div class="w-full max-w-sm bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2rem] p-1 shadow-2xl overflow-hidden transform hover:-rotate-1 transition-transform duration-500">
+                        <div class="bg-white/10 backdrop-blur-md rounded-[1.8rem] p-8 text-white relative h-full">
+                            <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+                            
+                            <div class="flex justify-between items-start mb-10">
+                                <div id="display-initial" class="w-20 h-20 bg-white text-indigo-700 rounded-2xl flex items-center justify-center text-3xl font-black shadow-xl">?</div>
+                                <div class="text-right">
+                                    <p class="text-[10px] uppercase tracking-widest opacity-70">Member ID</p>
+                                    <p class="font-mono font-bold">#2024-8842</p>
+                                </div>
+                            </div>
+
+                            <h3 id="display-name" class="text-2xl font-bold mb-6 truncate">Nombre del Usuario</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-[10px] uppercase font-bold opacity-60 mb-1">Top Fortalezas</p>
+                                    <p id="display-strengths" class="text-sm font-medium">No definidas</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase font-bold opacity-60 mb-1">Requerimientos Técnicos</p>
+                                    <p id="display-disabilities" class="text-sm font-medium">Ninguno</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-12 flex justify-between items-center opacity-40">
+                                <i class="fas fa-fingerprint text-3xl"></i>
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-slate-400 text-sm italic"><i class="fas fa-info-circle mr-1"></i> Este perfil filtrará automáticamente los empleos disponibles.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÓDULO: CURSOS (courses.html logic) -->
+        <section id="page-courses" class="page">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-black text-slate-800">Cursos Disponibles</h2>
+                <div class="flex gap-2">
+                    <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">4 ACTIVOS</span>
+                </div>
+            </div>
+            <div id="courses-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Inyectado dinámicamente -->
+            </div>
+        </section>
+
+        <!-- MÓDULO: EMPLEOS (jobs.html logic) -->
+        <section id="page-jobs" class="page">
+            <div class="bg-indigo-900 rounded-3xl p-8 mb-8 text-white relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-black mb-2">Buscador Inteligente</h2>
+                    <p class="opacity-80 mb-6">Encontramos vacantes que se adaptan a tu perfil de accesibilidad.</p>
+                    <div id="filter-indicator" class="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full text-sm backdrop-blur-md">
+                        <i class="fas fa-filter"></i> Mostrando: Todos los empleos
+                    </div>
+                </div>
+                <i class="fas fa-briefcase absolute -bottom-10 -right-10 text-white/5 text-[12rem] rotate-12"></i>
+            </div>
+
+            <div id="jobs-container" class="space-y-4">
+                <!-- Inyectado dinámicamente -->
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- BASE DE DATOS LOCAL (Simulación de JSON/Archivos externos) ---
+        const DATA = {
+            courses: [
+                { id: 1, title: "Programación Web Accesible", cat: "TI", time: "25h", level: "Intermedio", icon: "code" },
+                { id: 2, title: "Liderazgo de Equipos Diversos", cat: "RRHH", time: "12h", level: "Básico", icon: "users" },
+                { id: 3, title: "Diseño UX para Todos", cat: "Diseño", time: "30h", level: "Avanzado", icon: "paint-brush" },
+                { id: 4, title: "Administración de Empresas", cat: "Negocios", time: "40h", level: "Todos", icon: "briefcase" }
+            ],
+            jobs: [
+                { id: 1, title: "Desarrollador Frontend Jr", company: "MetaTech", access: ["Auditiva", "Movilidad Reducida"], salary: "$2.5k - $3k" },
+                { id: 2, title: "Redactor Creativo", company: "IdeaFactory", access: ["Visual", "Movilidad Reducida"], salary: "$1.8k" },
+                { id: 3, title: "Soporte Técnico N1", company: "ConnectGlobal", access: ["Auditiva", "Neurodivergencia"], salary: "$1.5k" },
+                { id: 4, title: "Analista Financiero", company: "DataFinance", access: ["Movilidad Reducida"], salary: "$4k" }
+            ]
+        };
+
+        // --- ESTADO DE LA APP ---
+        let user = {
+            name: "",
+            strengths: [],
+            disabilities: []
+        };
+
+        // --- LÓGICA DE NAVEGACIÓN ---
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${id}`).classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('bg-indigo-600', 'shadow-lg');
+                b.classList.add('hover:bg-indigo-600/50');
+            });
+            const activeBtn = document.getElementById(`btn-${id}`);
+            activeBtn.classList.add('bg-indigo-600', 'shadow-lg');
+            activeBtn.classList.remove('hover:bg-indigo-600/50');
+
+            if (id === 'courses') renderCourses();
+            if (id === 'jobs') renderJobs();
+            
+            // Scroll al inicio al cambiar de página
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- LÓGICA DE PERFIL ---
+        function updateProfileView() {
+            user.name = document.getElementById('input-name').value;
+            document.getElementById('display-name').innerText = user.name || "Nombre del Usuario";
+            document.getElementById('display-initial').innerText = user.name ? user.name[0].toUpperCase() : "?";
+        }
+
+        function addItem(type) {
+            const elId = type === 'strengths' ? 'input-strength' : 'select-disability';
+            const input = document.getElementById(elId);
+            const val = input.value.trim();
+
+            if (val && !user[type].includes(val)) {
+                user[type].push(val);
+                input.value = "";
+                refreshTags();
+            }
+        }
+
+        function removeItem(type, index) {
+            user[type].splice(index, 1);
+            refreshTags();
+        }
+
+        function refreshTags() {
+            const sContainer = document.getElementById('tags-strengths');
+            const dContainer = document.getElementById('tags-disabilities');
+
+            sContainer.innerHTML = user.strengths.map((s, i) => `
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-2">
+                    ${s} <button onclick="removeItem('strengths', ${i})"><i class="fas fa-times"></i></button>
+                </span>
+            `).join("");
+
+            dContainer.innerHTML = user.disabilities.map((d, i) => `
+                <span class="bg-slate-200 text-slate-700 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-2">
+                    ${d} <button onclick="removeItem('disabilities', ${i})"><i class="fas fa-times text-slate-400"></i></button>
+                </span>
+            `).join("");
+
+            document.getElementById('display-strengths').innerText = user.strengths.length > 0 ? user.strengths.join(", ") : "No definidas";
+            document.getElementById('display-disabilities').innerText = user.disabilities.length > 0 ? user.disabilities.join(", ") : "Ninguno";
+        }
+
+        // --- LÓGICA DE CURSOS ---
+        function renderCourses() {
+            const container = document.getElementById('courses-container');
+            container.innerHTML = DATA.courses.map(c => `
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 hover:shadow-xl hover:border-indigo-300 transition-all group">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-${c.icon} text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2 leading-tight">${c.title}</h3>
+                    <p class="text-slate-400 text-xs mb-6 font-medium">${c.cat} • ${c.level}</p>
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-50">
+                        <span class="text-sm font-bold text-slate-600"><i class="far fa-clock mr-1"></i> ${c.time}</span>
+                        <button class="text-indigo-600 font-bold text-sm hover:underline">Ver más <i class="fas fa-arrow-right ml-1"></i></button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // --- LÓGICA DE EMPLEOS (Con filtrado inteligente) ---
+        function renderJobs() {
+            const container = document.getElementById('jobs-container');
+            const indicator = document.getElementById('filter-indicator');
+            
+            let filtered = DATA.jobs;
+            if (user.disabilities.length > 0) {
+                filtered = DATA.jobs.filter(job => 
+                    job.access.some(acc => user.disabilities.includes(acc))
+                );
+                indicator.innerHTML = `<i class="fas fa-robot"></i> Inteligencia: Filtrando por <b class="ml-1">${user.disabilities.join(", ")}</b>`;
+            } else {
+                indicator.innerHTML = `<i class="fas fa-globe"></i> Mostrando: Todos los empleos (Personaliza tu perfil)`;
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 bg-slate-100 rounded-[2.5rem] border-2 border-dashed border-slate-300">
+                        <i class="fas fa-search text-4xl text-slate-300 mb-4"></i>
+                        <p class="text-slate-500 font-medium">No hay vacantes específicas para tus criterios actuales.</p>
+                        <button onclick="showPage('profile')" class="mt-4 text-indigo-600 font-bold underline">Ajustar mi perfil</button>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(j => `
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-5 w-full">
+                        <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400">
+                            <i class="fas fa-building text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-slate-800 leading-none mb-2">${j.title}</h3>
+                            <p class="text-indigo-600 font-bold text-sm">${j.company}</p>
+                            <div class="flex gap-2 mt-3">
+                                ${j.access.map(a => `<span class="bg-green-50 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-green-100"><i class="fas fa-check-circle mr-1"></i> ${a}</span>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-3 w-full md:w-auto">
+                        <span class="text-slate-800 font-black text-lg">${j.salary}</span>
+                        <button class="bg-indigo-600 text-white px-8 py-3 rounded-2xl font-bold hover:bg-indigo-700 transition w-full shadow-lg shadow-indigo-200">Postular ahora</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // Inicialización
+        window.onload = () => {
+            console.log("Sistema InclusionHub inicializado.");
+        };
+    </script>
+</body>
+</html>
