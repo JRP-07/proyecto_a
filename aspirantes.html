@@ -329,6 +329,11 @@
             const searchInput = document.getElementById('job-search');
             const search = searchInput ? searchInput.value.toLowerCase() : "";
             
+            <!-- const jobs = JSON.parse(localStorage.getItem('hub_jobs')) || [
+                { id: 1, title: "Recepcionista", companyName: "Hotel Plaza", access: "Cualquier" },
+                { id: 2, title: "Programador Jr", companyName: "DevStudio", access: "Cualquiera" },
+                { id: 3, title: "Asesor Contable", companyName: "Finanzas SA", access: "Cualquiera" }
+            ]; -->
 
             const filtered = jobs.filter(j => {
                 const matchesSearch = j.title.toLowerCase().includes(search) || j.companyName.toLowerCase().includes(search);
