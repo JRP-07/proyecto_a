@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +8,45 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-link.active { @apply bg-blue-600 text-white shadow-md; }
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link.active {
+            @apply bg-blue-600 text-white shadow-md;
+        }
+
         /* Estilo para campos deshabilitados */
-        select:disabled { @apply bg-slate-100 cursor-not-allowed opacity-70; }
+        select:disabled {
+            @apply bg-slate-100 cursor-not-allowed opacity-70;
+        }
     </style>
 </head>
+
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
 
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
             <div class="flex items-center gap-4">
-                <button onclick="safeRedirect('index.html')" class="text-slate-400 hover:text-blue-600 transition-colors">
+                <button onclick="safeRedirect('index.html')"
+                    class="text-slate-400 hover:text-blue-600 transition-colors">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </button>
                 <div class="flex items-center gap-2">
@@ -30,9 +56,12 @@
             </div>
 
             <div class="flex bg-slate-100 p-1 rounded-xl">
-                <button onclick="showPage('profile')" id="nav-profile" class="nav-link active px-4 py-2 rounded-lg text-sm font-bold transition-all">Perfil</button>
-                <button onclick="showPage('jobs')" id="nav-jobs" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Empleos</button>
-                <button onclick="showPage('courses')" id="nav-courses" class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Cursos</button>
+                <button onclick="showPage('profile')" id="nav-profile"
+                    class="nav-link active px-4 py-2 rounded-lg text-sm font-bold transition-all">Perfil</button>
+                <button onclick="showPage('jobs')" id="nav-jobs"
+                    class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Empleos</button>
+                <button onclick="showPage('courses')" id="nav-courses"
+                    class="nav-link px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500">Cursos</button>
             </div>
         </div>
     </nav>
@@ -46,17 +75,25 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Correo</label>
-                            <input type="email" id="reg-mail" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500" readonly="true">
-                        </div>
-                         <div>
-                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Nombre Completo</label>
-                            <input type="text" id="reg-name" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="email" id="reg-mail"
+                                class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                                readonly="true">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Habilidades (separadas por coma)</label>
-                            <textarea id="reg-skills" rows="3" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: Excel, Diseño Gráfico, Atención al cliente..."></textarea>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Nombre
+                                Completo</label>
+                            <input type="text" id="reg-name"
+                                class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
-                        <button onclick="saveCurrentProfile()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Habilidades
+                                (separadas por coma)</label>
+                            <textarea id="reg-skills" rows="3"
+                                class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Ej: Excel, Diseño Gráfico, Atención al cliente..."></textarea>
+                        </div>
+                        <button onclick="saveCurrentProfile()"
+                            class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all">
                             Guardar Cambios
                         </button>
                     </div>
@@ -64,21 +101,26 @@
 
                 <!-- Card de Vista Previa -->
                 <div class="bg-blue-900 p-8 rounded-[2.5rem] text-white shadow-xl flex flex-col justify-center">
-                    
+
                     <div class="flex items-center gap-4 mb-4">
-                        <div id="card-initial" class="w-16 h-16 bg-white text-blue-900 rounded-2xl flex items-center justify-center text-3xl font-black">?</div>
+                        <div id="card-initial"
+                            class="w-16 h-16 bg-white text-blue-900 rounded-2xl flex items-center justify-center text-3xl font-black">
+                            ?</div>
                         <div>
                             <h3 id="card-name" class="text-2xl font-bold">Postulante</h3>
-                            <p class="text-blue-400 font-bold uppercase text-[10px] tracking-widest">ID de Registro: <span id="card-id">0000</span></p>
+                            <p class="text-blue-400 font-bold uppercase text-[10px] tracking-widest">ID de Registro:
+                                <span id="card-id">0000</span></p>
                         </div>
                     </div>
                     <div class="border-t border-blue-800 pt-4 space-y-4">
                         <div>
-                            <p class="text-[10px] font-black uppercase text-blue-400 tracking-widest mb-2">Correo del postulante:</p>
+                            <p class="text-[10px] font-black uppercase text-blue-400 tracking-widest mb-2">Correo del
+                                postulante:</p>
                             <div id="card-mail" class="flex flex-wrap gap-2"></div>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black uppercase text-blue-400 tracking-widest mb-2">Habilidades Destacadas:</p>
+                            <p class="text-[10px] font-black uppercase text-blue-400 tracking-widest mb-2">Habilidades
+                                Destacadas:</p>
                             <div id="card-skills" class="flex flex-wrap gap-2"></div>
                         </div>
                     </div>
@@ -95,7 +137,8 @@
                 </div>
                 <div class="relative w-full md:w-72">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
-                    <input type="text" id="job-search" oninput="renderJobs()" placeholder="Buscar puesto o empresa..." class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                    <input type="text" id="job-search" oninput="renderJobs()" placeholder="Buscar puesto o empresa..."
+                        class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
                 </div>
             </div>
             <div id="jobs-list" class="grid gap-4"></div>
@@ -105,7 +148,8 @@
         <section id="page-courses" class="page">
             <div class="mb-8">
                 <h2 class="text-3xl font-black text-slate-800 text-center md:text-left">Cursos de Capacitación</h2>
-                <p class="text-slate-500 text-sm text-center md:text-left">Programas diseñados para potenciar tu perfil profesional.</p>
+                <p class="text-slate-500 text-sm text-center md:text-left">Programas diseñados para potenciar tu perfil
+                    profesional.</p>
             </div>
             <div id="courses-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"></div>
 
@@ -118,7 +162,8 @@
 
                 <div class="grid md:grid-cols-3 gap-8 mb-16">
                     <!-- Plan Básico -->
-                    <div class="bg-blue-800/50 p-8 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all group">
+                    <div
+                        class="bg-blue-800/50 p-8 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all group">
                         <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6">
                             <i class="fas fa-seedling text-xl"></i>
                         </div>
@@ -128,16 +173,24 @@
                             <span class="text-blue-300 text-sm font-bold">/mes</span>
                         </div>
                         <ul class="space-y-4 mb-8 text-blue-100 text-sm">
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Acceso a cursos básicos</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Recursos de aprendizaje</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Soporte comunitario</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Acceso a
+                                cursos básicos</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Recursos de
+                                aprendizaje</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Soporte
+                                comunitario</li>
                         </ul>
-                        <button class="w-full py-4 rounded-2xl bg-blue-700 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-all">Seleccionar Plan</button>
+                        <button
+                            class="w-full py-4 rounded-2xl bg-blue-700 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-all">Seleccionar
+                            Plan</button>
                     </div>
 
                     <!-- Plan Profesional -->
-                    <div class="bg-white p-8 rounded-3xl shadow-xl border-2 border-blue-600 relative transform scale-105 text-slate-900">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Más Popular</div>
+                    <div
+                        class="bg-white p-8 rounded-3xl shadow-xl border-2 border-blue-600 relative transform scale-105 text-slate-900">
+                        <div
+                            class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                            Más Popular</div>
                         <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6">
                             <i class="fas fa-rocket text-xl"></i>
                         </div>
@@ -147,15 +200,21 @@
                             <span class="text-slate-400 text-sm font-bold">/mes</span>
                         </div>
                         <ul class="space-y-4 mb-8 text-slate-600 text-sm">
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Todo lo del Plan Básico</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Micro-certificaciones</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Capacitaciones avanzadas</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Todo lo del
+                                Plan Básico</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i>
+                                Micro-certificaciones</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i>
+                                Capacitaciones avanzadas</li>
                         </ul>
-                        <button class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">Seleccionar Plan</button>
+                        <button
+                            class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">Seleccionar
+                            Plan</button>
                     </div>
 
                     <!-- Plan Elite -->
-                    <div class="bg-blue-800/50 p-8 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all group">
+                    <div
+                        class="bg-blue-800/50 p-8 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all group">
                         <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6">
                             <i class="fas fa-crown text-xl"></i>
                         </div>
@@ -165,11 +224,16 @@
                             <span class="text-blue-300 text-sm font-bold">/mes</span>
                         </div>
                         <ul class="space-y-4 mb-8 text-blue-100 text-sm">
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Todo lo del Plan Profesional</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Mentoría personalizada</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Acceso prioritario a vacantes</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Todo lo del
+                                Plan Profesional</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Mentoría
+                                personalizada</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Acceso
+                                prioritario a vacantes</li>
                         </ul>
-                        <button class="w-full py-4 rounded-2xl bg-blue-700 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-all">Seleccionar Plan</button>
+                        <button
+                            class="w-full py-4 rounded-2xl bg-blue-700 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-all">Seleccionar
+                            Plan</button>
                     </div>
                 </div>
 
@@ -248,7 +312,7 @@
             const mailInput = document.getElementById('reg-mail');
             const nameInput = document.getElementById('reg-name');
             const skillInput = document.getElementById('reg-skills');
-            
+
             const mail = mailInput ? mailInput.value.trim() : "";
             const name = nameInput ? nameInput.value.trim() : "";
             const skills = skillInput ? skillInput.value.trim() : "";
@@ -266,10 +330,10 @@
                 currentUserData = { ...currentUserData, name, skills };
                 candidates[index] = currentUserData;
                 localStorage.setItem('hub_candidates', JSON.stringify(candidates));
-                
+
                 const navEl = document.getElementById('nav-user-name');
                 if (navEl) navEl.innerText = name;
-                
+
                 // Volvemos a ejecutar fillForm para asegurar que si se acaba de asignar una, se bloquee
                 fillForm();
                 updateCard();
@@ -278,14 +342,14 @@
         }
 
         function updateCard() {
-            const cardMail= document.getElementById('card-mail');
+            const cardMail = document.getElementById('card-mail');
             const cardName = document.getElementById('card-name');
             const cardInit = document.getElementById('card-initial');
             const cardId = document.getElementById('card-id');
             const skillCont = document.getElementById('card-skills');
 
             if (cardName) cardName.innerText = currentUserData.name;
-            if(cardMail) cardMail.innerHTML = currentUserData.mail;
+            if (cardMail) cardMail.innerHTML = currentUserData.mail;
             if (cardInit) cardInit.innerText = currentUserData.name ? currentUserData.name[0].toUpperCase() : '?';
             if (cardId) cardId.innerText = currentUserId.toString().slice(-4);
 
@@ -325,15 +389,15 @@
         function renderJobs() {
             const container = document.getElementById('jobs-list');
             if (!container) return;
-            
+
             const searchInput = document.getElementById('job-search');
             const search = searchInput ? searchInput.value.toLowerCase() : "";
-            
-            <!-- const jobs = JSON.parse(localStorage.getItem('hub_jobs')) || [
-                { id: 1, title: "Recepcionista", companyName: "Hotel Plaza", access: "Cualquier" },
-                { id: 2, title: "Programador Jr", companyName: "DevStudio", access: "Cualquiera" },
-                { id: 3, title: "Asesor Contable", companyName: "Finanzas SA", access: "Cualquiera" }
-            ]; -->
+
+            const jobs = JSON.parse(localStorage.getItem('hub_jobs')) || [
+                { id: 1, title: "Recepcionista", companyName: "Hotel Plaza", access: "Cualquiera", desc: "Practica" },
+                { id: 2, title: "Programador Jr", companyName: "DevStudio", access: "Cualquiera", desc: "Practica" },
+                { id: 3, title: "Asesor Contable", companyName: "Finanzas SA", access: "Cualquiera", desc: "Practica" }
+            ];
 
             const filtered = jobs.filter(j => {
                 const matchesSearch = j.title.toLowerCase().includes(search) || j.companyName.toLowerCase().includes(search);
@@ -366,7 +430,7 @@
 
         function applyToJob(jobId) {
             const applications = JSON.parse(localStorage.getItem('hub_applications')) || [];
-            
+
             // Check if already applied
             const alreadyApplied = applications.find(app => app.jobId === jobId && app.userId === currentUserId);
             if (alreadyApplied) {
@@ -425,4 +489,5 @@
         window.onload = initializeApp;
     </script>
 </body>
+
 </html>
