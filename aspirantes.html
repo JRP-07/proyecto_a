@@ -350,6 +350,14 @@
                     <div>
                         <h3 class="font-black text-xl text-slate-800">${j.title}</h3>
                         <p class="text-slate-500 font-bold">${j.companyName}</p>
+                        <div class="grid grid-cols 2 md:grid-cols-2 gap-6">
+                            <div class="flex items-center gap-2 space-y-10"> 
+                                <p class="text-slate-400 font-normal"> ${j.desc}</p> 
+                            </div>
+                            <div class="flex items-center gap-2 space-y-2">
+                                <p class="text-slate-400 font-normal"> ${j.access}</p>
+                            </div>
+                        </div>
                     </div>
                     <button onclick="applyToJob(${j.id})" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors">Postular</button>
                 </div>
