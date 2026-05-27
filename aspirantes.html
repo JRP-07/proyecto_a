@@ -320,18 +320,6 @@
             if (pageId === 'jobs') renderJobs();
             if (pageId === 'courses') renderCourses();
         }
-        window.onload = initJobs;
-
-        function initJobs(){
-            if(!localStore.getItem('hub_jobs')){
-                const seed = [
-                { id: 1, title: "Recepcionista", companyName: "Hotel Plaza", access: "Cualquier" },
-                { id: 2, title: "Programador Jr", companyName: "DevStudio", access: "Cualquiera" },
-                { id: 3, title: "Asesor Contable", companyName: "Finanzas SA", access: "Cualquiera" }
-            ];
-            localStorage.setItem('hub_jobs', JSON.stringify(seed));
-            }
-        }
 
 
         function renderJobs() {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,46 +8,45 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
 
     <header class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-        
-        <!-- Logo e Inicio General -->
-        <div class="flex items-center gap-4">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
-                <div class="bg-blue-600 text-white p-2 rounded-xl shadow-lg shadow-yellow-100">
-                    <img src="recursos/logo.jpeg" 
-                             alt="Logo Nexa" 
-                             class="w-20 h-20 object-contain"
-                             onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-handshake-angle text-white\'></i>'; this.type='hidden';">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+
+            <!-- Logo e Inicio General -->
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div class="bg-blue-600 text-white p-2 rounded-xl shadow-lg shadow-yellow-100">
+                        <img src="recursos/logo.jpeg" alt="Logo Nexa" class="w-20 h-20 object-contain"
+                            onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-handshake-angle text-white\'></i>'; this.type='hidden';">
+                    </div>
+                    <h1 class="text-3xl font-black text-blue-900 tracking-tight">Nexa</h1>
                 </div>
-                <h1 class="text-3xl font-black text-blue-900 tracking-tight">Nexa</h1>
+
+                <div class="h-6 w-[1px] bg-slate-200 hidden md:block mx-2"></div>
+
             </div>
-            
-            <div class="h-6 w-[1px] bg-slate-200 hidden md:block mx-2"></div>
-            
-        </div>
 
-        <!-- Portales Específicos -->
-        <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl w-full md:w-auto justify-center">
-            <!-- Botón Aspirantes -->
-            <button onclick="window.location.href='index.html'" 
-                class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-xl text-xs font-black uppercase tracking-widest shadow-sm hover:bg-blue-50 transition-all border border-slate-200">
-                <i class="fas fa-user"></i>
-                Portal Aspirantes
-            </button>
+            <!-- Portales Específicos -->
+            <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl w-full md:w-auto justify-center">
+                <!-- Botón Aspirantes -->
+                <button onclick="window.location.href='index.html'"
+                    class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-xl text-xs font-black uppercase tracking-widest shadow-sm hover:bg-blue-50 transition-all border border-slate-200">
+                    <i class="fas fa-user"></i>
+                    Portal Aspirantes
+                </button>
 
-            <!-- Botón Empresas -->
-            <button onclick="window.location.href='inicio_empresas.html'" 
-                class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-md shadow-emerald-100 hover:bg-emerald-700 transition-all">
-                <i class="fas fa-building"></i>
-                Portal Empresas
-            </button>
+                <!-- Botón Empresas -->
+                <button onclick="window.location.href='inicio_empresas.html'"
+                    class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-md shadow-emerald-100 hover:bg-emerald-700 transition-all">
+                    <i class="fas fa-building"></i>
+                    Portal Empresas
+                </button>
+            </div>
+
         </div>
-        
-    </div>
-</header>
+    </header>
 
     <main class="flex-1 flex items-center justify-center p-4">
         <div class="max-w-md w-full">
@@ -58,37 +58,43 @@
 
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-1">Tu correo de usuario</label>
+                        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-1">Tu correo de
+                            usuario</label>
                         <div class="relative">
                             <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
-                            <input type="email" id="login-mail" 
-                                class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
-                                placeholder="Ej: user@mail.com"
-                                onkeypress="if(event.key === 'Enter') handleAccess()">
+                            <input type="email" id="login-mail"
+                                class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                placeholder="Ej: user@mail.com" onkeypress="if(event.key === 'Enter') handleAccess()">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-1">Contraseña</label>
+                        <label
+                            class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-1">Contraseña</label>
                         <div class="relative">
                             <i class="fas fa-key absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
-                            <input type="password" placeholder="••••••••" minlength="8" id="login-password" 
-                                class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                            <input type="password" placeholder="••••••••" minlength="8" id="login-password"
+                                class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                 onkeypress="if(event.key === 'Enter') handleAccess()">
                         </div>
                     </div>
 
                     <div class="pt-2 space-y-3">
-                        <button onclick="handleAccess()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 hover:-translate-y-1 transition-all">
+                        <button onclick="handleAccess()"
+                            class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 hover:-translate-y-1 transition-all">
                             Entrar a mi Perfil
                         </button>
-                        
+
                         <div class="relative py-4">
-                            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
-                            <div class="relative flex justify-center text-[10px] uppercase font-black text-slate-400"><span class="bg-white px-2">O también</span></div>
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-slate-100"></div>
+                            </div>
+                            <div class="relative flex justify-center text-[10px] uppercase font-black text-slate-400">
+                                <span class="bg-white px-2">O también</span></div>
                         </div>
 
-                        <button onclick="toggleRegister(true)" class="w-full bg-white border-2 border-slate-100 text-slate-600 py-4 rounded-2xl font-black hover:bg-slate-50 transition-all">
+                        <button onclick="toggleRegister(true)"
+                            class="w-full bg-white border-2 border-slate-100 text-slate-600 py-4 rounded-2xl font-black hover:bg-slate-50 transition-all">
                             Crear una cuenta nueva
                         </button>
                     </div>
@@ -104,22 +110,28 @@
     </main>
 
     <!-- Modal Registro -->
-    <div id="modal-register" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div id="modal-register"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-white w-full max-w-sm p-8 rounded-[2.5rem] shadow-2xl">
             <h3 class="text-2xl font-black mb-2">Registro</h3>
             <p class="text-slate-500 text-sm mb-6">¿Eres nuevo? Dinos tu nombre para empezar.</p>
 
             <p class="text-slate-800 text-sl font-black mb-1"> Ingresa tu correo</p>
-            <input type="text" id="reg-new-mail" class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none mb-4" placeholder="Correo de usuario">
-            
+            <input type="text" id="reg-new-mail"
+                class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none mb-4"
+                placeholder="Correo de usuario">
+
 
             <p class="text-slate-800 text-sl font-black mb-1"> Ingresa una contraseña</p>
-            <input type="password" id="reg-new-password" class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none mb-4" required placeholder="••••••••" minlength="6">
+            <input type="password" id="reg-new-password"
+                class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none mb-4" required
+                placeholder="••••••••" minlength="6">
 
 
             <div class="flex gap-3">
                 <button onclick="toggleRegister(false)" class="flex-1 py-3 text-slate-400 font-bold">Cancelar</button>
-                <button onclick="registerAndLogin()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-black">Registrarme</button>
+                <button onclick="registerAndLogin()"
+                    class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-black">Registrarme</button>
             </div>
         </div>
     </div>
@@ -128,11 +140,20 @@
         function initData() {
             if (!localStorage.getItem('hub_candidates')) {
                 const seed = [
-                    { id: 1710000000001, mail: "lisa@mail.com", name: "Lisa Martinez", password: "1234",   skills: "Accesibilidad, HTML, React"},
-                    { id: 1710000000002, mail: "carlos@mail.com", name:"Carlos Ruiz", password: "1234", skills: "Diseño, Figma, CSS"},
-                    { id: 1710000000003, mail: "juan@mail.com", name:"Juan", password: "1234", skills: "Diseño, Figma, CSS"}
+                    { id: 1710000000001, mail: "lisa@mail.com", name: "Lisa Martinez", password: "1234", skills: "Accesibilidad, HTML, React" },
+                    { id: 1710000000002, mail: "carlos@mail.com", name: "Carlos Ruiz", password: "1234", skills: "Diseño, Figma, CSS" },
+                    { id: 1710000000003, mail: "juan@mail.com", name: "Juan", password: "1234", skills: "Diseño, Figma, CSS" }
                 ];
                 localStorage.setItem('hub_candidates', JSON.stringify(seed));
+            }
+
+            if (!localStorage.getItem('hub_jobs')) {
+                const seed2 = [
+                    { id: 1, title: "Recepcionista", companyName: "Hotel Plaza", access: "Cualquier" },
+                    { id: 2, title: "Programador Jr", companyName: "DevStudio", access: "Cualquiera" },
+                    { id: 3, title: "Asesor Contable", companyName: "Finanzas SA", access: "Cualquiera" }
+                ];
+                localStorage.setItem('hub_jobs', JSON.stringify(seed2));
             }
         }
 
@@ -141,12 +162,12 @@
             if (!mailInput) return showFeedback("Por favor, ingresa tu correo.");
 
             const passInput = document.getElementById('login-password').value.trim();
-            if(!passInput) return showFeedback("Por favor, ingresa tu contraseña.");
+            if (!passInput) return showFeedback("Por favor, ingresa tu contraseña.");
 
             const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
             const user = candidates.find(c => c.mail.toLowerCase() === mailInput.toLowerCase() &&
-                                        c.password === passInput);
-            
+                c.password === passInput);
+
             if (user) {
                 window.location.href = `aspirantes.html?id=${user.id}`;
                 showFeedback("Acceso exitoso. Redirigiendo...");
@@ -163,20 +184,20 @@
             const newMail = document.getElementById('reg-new-mail').value.trim();
             const newPassword = document.getElementById('reg-new-password').value.trim();
 
-            if(!newMail) return alert("Ingresa un correo válido");
-            if(!newPassword) return alert("Ingresa una contraseña válida");
+            if (!newMail) return alert("Ingresa un correo válido");
+            if (!newPassword) return alert("Ingresa una contraseña válida");
 
             const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
-            
+
             // Check if email already exists
             if (candidates.some(c => c.mail.toLowerCase() === newMail.toLowerCase())) {
                 return alert("Este correo ya está registrado.");
             }
 
-            const newCandidate = { 
-                id: Date.now(), 
-                mail: newMail, 
-                password: newPassword, 
+            const newCandidate = {
+                id: Date.now(),
+                mail: newMail,
+                password: newPassword,
                 name: "", // Empty name, user will fill it in aspirantes.html
                 skills: "",
             };
@@ -195,4 +216,5 @@
         window.onload = initData;
     </script>
 </body>
+
 </html>
