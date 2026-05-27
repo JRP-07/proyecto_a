@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InclusionHub | Perfil Aspirante</title>
+    <title>NEXA | Perfil Aspirante</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-link.active { @apply bg-indigo-600 text-white shadow-md; }
+        .nav-link.active { @apply bg-blue-600 text-white shadow-md; }
         /* Estilo para campos deshabilitados */
         select:disabled { @apply bg-slate-100 cursor-not-allowed opacity-70; }
     </style>
@@ -20,12 +20,12 @@
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
             <div class="flex items-center gap-4">
-                <button onclick="safeRedirect('index.html')" class="text-slate-400 hover:text-indigo-600 transition-colors">
+                <button onclick="safeRedirect('index.html')" class="text-slate-400 hover:text-blue-600 transition-colors">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </button>
                 <div class="flex items-center gap-2">
-                    <div class="bg-indigo-600 text-white p-2 rounded-lg"><i class="fas fa-user-graduate"></i></div>
-                    <span id="nav-user-name" class="text-xl font-bold text-indigo-900 hidden md:block">Cargando...</span>
+                    <div class="bg-blue-600 text-white p-2 rounded-lg"><i class="fas fa-user-graduate"></i></div>
+                    <span id="nav-user-name" class="text-xl font-bold text-blue-900 hidden md:block">Cargando...</span>
                 </div>
             </div>
 
@@ -45,48 +45,40 @@
                     <h2 class="text-2xl font-black mb-6 text-slate-800">Actualizar Mis Datos</h2>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Nombre Completo</label>
-                            <input type="text" id="reg-name" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" readonly="true">
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Correo</label>
+                            <input type="email" id="reg-mail" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500" readonly="true">
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tipo de Discapacidad</label>
-                            <div id="disability-lock-msg" class="text-[9px] text-amber-600 font-bold mb-1 hidden italic">
-                                <i class="fas fa-lock"></i> Esta información ya no puede ser modificada.
-                            </div>
-                            <select id="reg-disability" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none transition-all">
-                                <option value="Ninguna">Sin especificar</option>
-                                <option value="Movilidad Reducida">Movilidad Reducida</option>
-                                <option value="Visual">Visual</option>
-                                <option value="Auditiva">Auditiva</option>
-                                <option value="Neurodivergencia">Neurodivergencia</option>
-                            </select>
+                         <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Nombre Completo</label>
+                            <input type="text" id="reg-name" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Habilidades (separadas por coma)</label>
-                            <textarea id="reg-skills" rows="3" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Excel, Diseño Gráfico, Atención al cliente..."></textarea>
+                            <textarea id="reg-skills" rows="3" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: Excel, Diseño Gráfico, Atención al cliente..."></textarea>
                         </div>
-                        <button onclick="saveCurrentProfile()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">
+                        <button onclick="saveCurrentProfile()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all">
                             Guardar Cambios
                         </button>
                     </div>
                 </div>
 
                 <!-- Card de Vista Previa -->
-                <div class="bg-indigo-900 p-8 rounded-[2.5rem] text-white shadow-xl flex flex-col justify-center">
+                <div class="bg-blue-900 p-8 rounded-[2.5rem] text-white shadow-xl flex flex-col justify-center">
+                    
                     <div class="flex items-center gap-4 mb-4">
-                        <div id="card-initial" class="w-16 h-16 bg-white text-indigo-900 rounded-2xl flex items-center justify-center text-3xl font-black">?</div>
+                        <div id="card-initial" class="w-16 h-16 bg-white text-blue-900 rounded-2xl flex items-center justify-center text-3xl font-black">?</div>
                         <div>
                             <h3 id="card-name" class="text-2xl font-bold">Postulante</h3>
-                            <p class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">ID de Registro: <span id="card-id">0000</span></p>
+                            <p class="text-blue-400 font-bold uppercase text-[10px] tracking-widest">ID de Registro: <span id="card-id">0000</span></p>
                         </div>
                     </div>
-                    <div class="border-t border-indigo-800 pt-4 space-y-4">
+                    <div class="border-t border-blue-800 pt-4 space-y-4">
                         <div>
-                            <p class="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-1">Condición de Acceso:</p>
-                            <p id="card-disability" class="text-sm font-bold text-indigo-100">Ninguna</p>
+                            <p class="text-[10px] font-black uppercase text-blue-400 tracking-widest mb-2">Correo del postulante:</p>
+                            <div id="card-mail" class="flex flex-wrap gap-2"></div>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-2">Habilidades Destacadas:</p>
+                            <p class="text-[10px] font-black uppercase text-blue-400 tracking-widest mb-2">Habilidades Destacadas:</p>
                             <div id="card-skills" class="flex flex-wrap gap-2"></div>
                         </div>
                     </div>
@@ -103,7 +95,7 @@
                 </div>
                 <div class="relative w-full md:w-72">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
-                    <input type="text" id="job-search" oninput="renderJobs()" placeholder="Buscar puesto o empresa..." class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                    <input type="text" id="job-search" oninput="renderJobs()" placeholder="Buscar puesto o empresa..." class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
                 </div>
             </div>
             <div id="jobs-list" class="grid gap-4"></div>
@@ -115,7 +107,96 @@
                 <h2 class="text-3xl font-black text-slate-800 text-center md:text-left">Cursos de Capacitación</h2>
                 <p class="text-slate-500 text-sm text-center md:text-left">Programas diseñados para potenciar tu perfil profesional.</p>
             </div>
-            <div id="courses-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="courses-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"></div>
+
+            <!-- SECCIÓN PLANES DE PAGO INTEGRADA -->
+            <div class="bg-blue-900 p-8 md:p-12 rounded-[3rem] text-white shadow-2xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-black mb-4">Planes de Capacitación y Asesoría</h2>
+                    <p class="text-blue-300">Elige el plan que mejor se adapte a tus necesidades profesionales</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 mb-16">
+                    <!-- Plan Básico -->
+                    <div class="bg-blue-800/50 p-8 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all group">
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-seedling text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Básico</h3>
+                        <div class="flex items-baseline gap-1 mb-6">
+                            <span class="text-3xl font-black">L.400</span>
+                            <span class="text-blue-300 text-sm font-bold">/mes</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 text-blue-100 text-sm">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Acceso a cursos básicos</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Recursos de aprendizaje</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Soporte comunitario</li>
+                        </ul>
+                        <button class="w-full py-4 rounded-2xl bg-blue-700 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-all">Seleccionar Plan</button>
+                    </div>
+
+                    <!-- Plan Profesional -->
+                    <div class="bg-white p-8 rounded-3xl shadow-xl border-2 border-blue-600 relative transform scale-105 text-slate-900">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Más Popular</div>
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-rocket text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Profesional</h3>
+                        <div class="flex items-baseline gap-1 mb-6">
+                            <span class="text-3xl font-black">L.800</span>
+                            <span class="text-slate-400 text-sm font-bold">/mes</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 text-slate-600 text-sm">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Todo lo del Plan Básico</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Micro-certificaciones</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-500"></i> Capacitaciones avanzadas</li>
+                        </ul>
+                        <button class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">Seleccionar Plan</button>
+                    </div>
+
+                    <!-- Plan Elite -->
+                    <div class="bg-blue-800/50 p-8 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all group">
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-crown text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Elite</h3>
+                        <div class="flex items-baseline gap-1 mb-6">
+                            <span class="text-3xl font-black">L.1,200</span>
+                            <span class="text-blue-300 text-sm font-bold">/mes</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 text-blue-100 text-sm">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Todo lo del Plan Profesional</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Mentoría personalizada</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-blue-400"></i> Acceso prioritario a vacantes</li>
+                        </ul>
+                        <button class="w-full py-4 rounded-2xl bg-blue-700 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-all">Seleccionar Plan</button>
+                    </div>
+                </div>
+
+                <!-- Servicios de Asesoría -->
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl font-bold mb-4">Servicios de Asesoría Profesional</h3>
+                    <p class="text-blue-300">Acompañamiento experto para tu inserción laboral</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-blue-800/50 p-6 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all">
+                        <h4 class="text-xl font-bold mb-2">Asesoría Básica</h4>
+                        <p class="text-blue-300 text-sm mb-4">Revisión de CV y consejos iniciales.</p>
+                        <p class="text-2xl font-black">Desde L.300</p>
+                    </div>
+                    <div class="bg-blue-800/50 p-6 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all">
+                        <h4 class="text-xl font-bold mb-2">Asesoría Completa</h4>
+                        <p class="text-blue-300 text-sm mb-4">Optimización de perfil y simulacro de entrevista.</p>
+                        <p class="text-2xl font-black">L.600 - L.900</p>
+                    </div>
+                    <div class="bg-blue-800/50 p-6 rounded-3xl border border-blue-700 hover:bg-blue-800 transition-all">
+                        <h4 class="text-xl font-bold mb-2">Paquete Premium</h4>
+                        <p class="text-blue-300 text-sm mb-4">Acompañamiento total hasta la colocación.</p>
+                        <p class="text-2xl font-black">L.1,200 - L.1,800</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -133,7 +214,7 @@
             const idStr = params.get('id');
 
             if (!idStr) {
-                safeRedirect('inicio.html');
+                safeRedirect('index.html');
                 return;
             }
 
@@ -142,7 +223,7 @@
             currentUserData = candidates.find(c => c.id === currentUserId);
 
             if (!currentUserData) {
-                safeRedirect('inicio.html');
+                safeRedirect('index.html');
                 return;
             }
 
@@ -151,44 +232,27 @@
         }
 
         function fillForm() {
+            const mailEl = document.getElementById('reg-mail');
             const nameEl = document.getElementById('reg-name');
-            const disEl = document.getElementById('reg-disability');
             const skillEl = document.getElementById('reg-skills');
             const navEl = document.getElementById('nav-user-name');
-            const lockMsg = document.getElementById('disability-lock-msg');
 
             if (nameEl) nameEl.value = currentUserData.name || '';
+            if (mailEl) mailEl.value = currentUserData.mail || '';
             if (skillEl) skillEl.value = currentUserData.skills || '';
             if (navEl) navEl.innerText = currentUserData.name || 'Postulante';
 
-            if (disEl) {
-                disEl.value = currentUserData.disability || 'Ninguna';
-                
-                // BLOQUEO: Si la capacidad ya está asignada (no es "Ninguna"), se deshabilita el select
-                if (currentUserData.disability && currentUserData.disability !== "Ninguna") {
-                    disEl.disabled = true;
-                    if (lockMsg) lockMsg.classList.remove('hidden');
-                } else {
-                    disEl.disabled = false;
-                    if (lockMsg) lockMsg.classList.add('hidden');
-                }
-            }
         }
 
         function saveCurrentProfile() {
+            const mailInput = document.getElementById('reg-mail');
             const nameInput = document.getElementById('reg-name');
-            const disInput = document.getElementById('reg-disability');
             const skillInput = document.getElementById('reg-skills');
             
+            const mail = mailInput ? mailInput.value.trim() : "";
             const name = nameInput ? nameInput.value.trim() : "";
             const skills = skillInput ? skillInput.value.trim() : "";
-            const dis = disInput ? disInput.value : "Ninguna";
 
-            // Lógica de guardado respetando el bloqueo
-            let disability = currentUserData.disability;
-            if (disInput && !disInput.disabled) {
-                disability = disInput.value;
-            }
 
             if (!name) {
                 alert("El nombre es obligatorio.");
@@ -214,25 +278,25 @@
         }
 
         function updateCard() {
+            const cardMail= document.getElementById('card-mail');
             const cardName = document.getElementById('card-name');
             const cardInit = document.getElementById('card-initial');
-            const cardDis = document.getElementById('card-disability');
             const cardId = document.getElementById('card-id');
             const skillCont = document.getElementById('card-skills');
 
             if (cardName) cardName.innerText = currentUserData.name;
+            if(cardMail) cardMail.innerHTML = currentUserData.mail;
             if (cardInit) cardInit.innerText = currentUserData.name ? currentUserData.name[0].toUpperCase() : '?';
-            if (cardDis) cardDis.innerText = currentUserData.disability;
             if (cardId) cardId.innerText = currentUserId.toString().slice(-4);
 
             if (skillCont) {
                 if (currentUserData.skills) {
                     const skillsArr = currentUserData.skills.split(',').filter(s => s.trim() !== '');
                     skillCont.innerHTML = skillsArr.map(s => `
-                        <span class="bg-indigo-800 text-indigo-100 px-3 py-1 rounded-lg text-[10px] font-bold uppercase border border-indigo-700">${s.trim()}</span>
+                        <span class="bg-blue-800 text-blue-100 px-3 py-1 rounded-lg text-[10px] font-bold uppercase border border-blue-700">${s.trim()}</span>
                     `).join('');
                 } else {
-                    skillCont.innerHTML = '<span class="text-xs text-indigo-400 italic">No has agregado habilidades aún.</span>';
+                    skillCont.innerHTML = '<span class="text-xs text-blue-400 italic">No has agregado habilidades aún.</span>';
                 }
             }
         }
@@ -243,13 +307,13 @@
             if (targetPage) targetPage.classList.add('active');
 
             document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active', 'bg-indigo-600', 'text-white');
+                link.classList.remove('active', 'bg-blue-600', 'text-white');
                 link.classList.add('text-slate-500');
             });
 
             const activeLink = document.getElementById(`nav-${pageId}`);
             if (activeLink) {
-                activeLink.classList.add('active', 'bg-indigo-600', 'text-white');
+                activeLink.classList.add('active', 'bg-blue-600', 'text-white');
                 activeLink.classList.remove('text-slate-500');
             }
 
@@ -271,9 +335,8 @@
             ];
 
             const filtered = jobs.filter(j => {
-                const matchesAccess = j.access === 'Cualquiera' || (currentUserData && j.access === currentUserData.disability);
                 const matchesSearch = j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
-                return matchesAccess && matchesSearch;
+                return matchesSearch;
             });
 
             if (filtered.length === 0) {
@@ -282,14 +345,37 @@
             }
 
             container.innerHTML = filtered.map(j => `
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:shadow-lg transition-all border-l-4 border-l-indigo-600">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:shadow-lg transition-all border-l-4 border-l-blue-600">
                     <div>
                         <h3 class="font-black text-xl text-slate-800">${j.title}</h3>
-                        <p class="text-slate-500 font-bold">${j.companyName}</p>
+                        <p class="text-slate-500 font-bold">${j.company}</p>
                     </div>
-                    <button class="bg-slate-900 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 transition-colors">Postular</button>
+                    <button onclick="applyToJob(${j.id})" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors">Postular</button>
                 </div>
             `).join('');
+        }
+
+        function applyToJob(jobId) {
+            const applications = JSON.parse(localStorage.getItem('hub_applications')) || [];
+            
+            // Check if already applied
+            const alreadyApplied = applications.find(app => app.jobId === jobId && app.userId === currentUserId);
+            if (alreadyApplied) {
+                alert("Ya te has postulado a esta vacante.");
+                return;
+            }
+
+            const newApplication = {
+                id: Date.now(),
+                jobId: jobId,
+                userId: currentUserId,
+                date: new Date().toISOString(),
+                status: 'Pendiente'
+            };
+
+            applications.push(newApplication);
+            localStorage.setItem('hub_applications', JSON.stringify(applications));
+            alert("✅ ¡Postulación enviada con éxito! La empresa revisará tu perfil.");
         }
 
         function renderCourses() {
@@ -307,7 +393,7 @@
 
             container.innerHTML = courses.map(c => `
                 <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                         <i class="fas ${c.icon} text-xl"></i>
                     </div>
                     <h3 class="font-black text-lg text-slate-800 mb-1">${c.title}</h3>
@@ -316,11 +402,15 @@
                         <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
                         <span>${c.duration}</span>
                     </div>
-                    <button class="w-full py-4 rounded-2xl bg-slate-50 text-indigo-600 font-black text-xs uppercase tracking-widest border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">
+                    <button onclick="redirectToPlans()" class="w-full py-4 rounded-2xl bg-slate-50 text-blue-600 font-black text-xs uppercase tracking-widest border border-blue-100 hover:bg-blue-600 hover:text-white transition-all">
                         Tomar Curso
                     </button>
                 </div>
             `).join('');
+        }
+
+        function redirectToPlans() {
+            window.location.href = `planes.html?id=${currentUserId}`;
         }
 
         window.onload = initializeApp;

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXA | Detalle del Candidato</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <button onclick="window.location.href='empresa.html'" class="text-slate-400 hover:text-emerald-600 transition-colors">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="bg-emerald-600 text-white p-2 rounded-lg"><i class="fas fa-user-check"></i></div>
+                    <span class="text-xl font-bold text-emerald-900">Perfil del Candidato</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-200 overflow-hidden">
+            <!-- Header del Perfil -->
+            <div class="bg-emerald-600 p-8 text-white flex flex-col md:flex-row items-center gap-6">
+                <div id="user-initial" class="w-24 h-24 bg-white text-emerald-600 rounded-3xl flex items-center justify-center text-4xl font-black shadow-lg">?</div>
+                <div class="text-center md:text-left">
+                    <h1 id="user-name" class="text-3xl font-black mb-2">Cargando...</h1>
+                    <p id="user-mail" class="text-emerald-100 font-medium opacity-90"></p>
+                </div>
+            </div>
+
+            <div class="p-8 grid md:grid-cols-3 gap-8">
+                <!-- Columna Izquierda: Info Básica -->
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">ID de Registro</h4>
+                        <p id="user-id" class="text-slate-700 font-bold bg-slate-100 px-3 py-1 rounded-lg inline-block"></p>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Contacto</h4>
+                        <div class="flex gap-2">
+                            <a id="user-linkedin" href="#" target="_blank" class="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a id="user-email-link" href="#" class="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Central y Derecha: Habilidades -->
+                <div class="md:col-span-2 space-y-8">
+                    <div>
+                        <h4 class="text-[10px] font-black uppercase text-slate-400 mb-4 tracking-widest">Habilidades Profesionales</h4>
+                        <div id="user-skills" class="flex flex-wrap gap-2">
+                            <!-- Skills dinámicas -->
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200">
+                        <h4 class="text-[10px] font-black uppercase text-slate-400 mb-4 tracking-widest">Perfil del Postulante</h4>
+                        <p class="text-slate-600 text-sm">Aquí puedes revisar el perfil del candidato, sus datos de contacto y las habilidades registradas. No se muestra el CV en esta vista.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const userId = parseInt(params.get('id'));
+
+            if (!userId) {
+                alert("ID de usuario no proporcionado.");
+                window.location.href = 'empresa.html';
+                return;
+            }
+
+            const candidates = JSON.parse(localStorage.getItem('hub_candidates')) || [];
+            const user = candidates.find(c => c.id === userId);
+
+            if (!user) {
+                alert("Candidato no encontrado.");
+                window.location.href = 'empresa.html';
+                return;
+            }
+
+            // Llenar datos
+            document.getElementById('user-name').innerText = user.name;
+            document.getElementById('user-mail').innerText = user.mail;
+            document.getElementById('user-id').innerText = user.id.toString().slice(-6);
+            document.getElementById('user-initial').innerText = user.name[0].toUpperCase();
+            
+            if (user.linkedin) {
+                document.getElementById('user-linkedin').href = user.linkedin;
+                document.getElementById('user-linkedin').style.display = 'flex';
+            } else {
+                document.getElementById('user-linkedin').style.display = 'none';
+            }
+            
+            document.getElementById('user-email-link').href = `mailto:${user.mail}`;
+
+            // Habilidades
+            const skillCont = document.getElementById('user-skills');
+            if (user.skills) {
+                const skillsArr = user.skills.split(',').filter(s => s.trim() !== '');
+                skillCont.innerHTML = skillsArr.map(s => `
+                    <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg text-xs font-bold uppercase border border-emerald-200">${s.trim()}</span>
+                `).join('');
+            } else {
+                skillCont.innerHTML = '<p class="text-sm text-slate-400 italic">Sin habilidades registradas.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
